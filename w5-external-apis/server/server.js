@@ -4,24 +4,41 @@ const request = require('superagent')
 
 const server = express()
 
-const apiEndpointBase = 'https://api.wheretheiss.at/v1/'
+const apiEndpointBase = 'https://api.chucknorris.io/'
 
 
 server.use(express.json())
 server.use(express.static(path.join(__dirname, './public')))
 
-server.get('/v1/satellites', (req,res) => {
-  request.get(apiEndpointBase + 'satellites')
+server.get('/jokes/random', (req, res) => {
+  request.get(apiEndpointBase + 'jokes/random')
+  .then(ApiRes => {
+    res.json(ApiRes.body)
+  })
+  .catch(err => {
+    console.log(err)
+  })
+})
+
+server.get('/jokes/search?query={query}', (req,res) => {
+  // https://api.chucknorris.io/jokes/search?query={query}
+  let specialSearch = req.query.query
+
+  request.get(apiEndpointBase + 'jokes/search?query=' + specialSearch)
   .then(ApiRes => {
     res.json(ApiRes.body)
   })
 })
 
-server.get('/v1/satellites/:satId', (req,res) => {
-  request.get(apiEndpointBase + 'satellites/' + req.params.satId)
+server.get('/jokes/search?query={query}', (req,res) => {
+  // https://api.chucknorris.io/jokes/search?query={query}
+  let specialSearch = req.query.query
+
+  request.get(apiEndpointBase + 'jokes/search?query=' + specialSearch)
   .then(ApiRes => {
     res.json(ApiRes.body)
   })
 })
+
 
 module.exports = server

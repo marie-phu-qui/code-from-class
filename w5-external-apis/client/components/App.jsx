@@ -1,54 +1,84 @@
 import React from 'react'
-import {getSatellite, getSatellites} from '../iss-client'
+import {getJoke, searchJoke} from '../api-client'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      satellites: [],
-      selectedSatellite: ''
+      jokes: '',
+      // queryList: [],
+      categories: []
     }
 
-    this.getSatellites = this.getSatellites.bind(this)
-    this.getSatellite = this.getSatellite.bind(this)
+    this.getJoke = this.getJoke.bind(this)
+    this.searchJoke = this.searchJoke.bind(this)
   }
 
   componentDidMount() {
-    this.getSatellites()
+    this.getJoke()
   }
 
-  getSatellites() {
-    getSatellites()
+  getJoke() {
+    getJoke()
     .then(res => {
       this.setState({
-        satellites: res.body
+        jokes: res.body
       })
     })
   }
 
-  getSatellite(satId) {
-    getSatellite(satId)
+  getCategories() {
+    this.getCategories()
     .then(res => {
       this.setState({
-        selectedSatellite: res.body
+        categories: res.body
       })
     })
   }
+
+  // getSatellite(satId) {
+  //   getSatellite(satId)
+  //   .then(res => {
+  //     this.setState({
+  //       selectedSatellite: res.body
+  //     })
+  //   })
+  // }
+
+  // searchJoke(specialSearch){
+  //   searchJoke(specialSearch)
+  //   .then(res => {
+  //     this.setState({
+  //       queryList: res.body
+  //     })
+  //   })
+  // }
 
   render() {
     return (
       <div>
-        <h1>Satellites</h1>
-        {this.state.satellites.length > 0 && <ul style={{listStyle: 'none'}}>
-          {this.state.satellites.map(sat => {
-            return <li key={sat.id}><button onClick={() => this.getSatellite(sat.id)}>{sat.name}</button></li>
-          })}
-        </ul>}
-
+        {console.log('hello?')}
+        <h1>Make me Chuckle</h1>
+      
         <p>
-          {this.state.selectedSatellite.velocity}
+          {this.state.jokes.value}
         </p>
+
+        <ul> categories</ul>
+
+
+        {/* <form>
+          <input name='specialSearch' placeholder='Careful what you wish for...' value='query' type='text'></input>
+          <input value='submit' type='button' onClick={searchJoke(query)}>Send it</input>
+        </form> */}
+
+         {/* {this.state.queryList.length > 0 && <ul style={{listStyle: 'none'}}>
+          {this.state.queryList.map(joke => {
+            return <li key={joke.id}><button onClick={() => this.searchJoke(joke.id)}>{joke.value}</button></li>
+          })}
+        </ul>} */}
+      
       </div>
     )
   }
